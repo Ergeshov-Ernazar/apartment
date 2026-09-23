@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class City(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название города", null=True, blank=True)
@@ -110,6 +111,7 @@ class Apartment(models.Model):
         ('none', 'Нет парковки'),
     ]
 
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='apartments', verbose_name="Автор объявления", null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='properties', verbose_name="Категория", null=True, blank=True)
     amenities = models.ManyToManyField(Amenity, blank=True, related_name='properties', verbose_name="Удобства", null=True)
     

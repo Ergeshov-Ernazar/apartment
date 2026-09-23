@@ -36,12 +36,15 @@ class ApartmentImageSerializer(serializers.ModelSerializer):
 
 class ApartmentSerializer(serializers.ModelSerializer):
     images = ApartmentImageSerializer(many=True, read_only=True)
-    amenities = serializers.StringRelatedField(many = True)
-    city = CitySerializer()
+    amenities = serializers.PrimaryKeyRelatedField(queryset=Amenity.objects.all(), many=True, required=False)
+    city = serializers.PrimaryKeyRelatedField(queryset=City.objects.all(), required=False)
+    district = serializers.PrimaryKeyRelatedField(queryset=District.objects.all(), required=False)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
     
     class Meta:
         model = Apartment
         fields = '__all__'
+        read_only_fields = ['author']
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -75,5 +78,3 @@ class LoginSerializer(serializers.Serializer):
             
         data['user'] = user
         return data
-
-
